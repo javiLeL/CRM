@@ -1,14 +1,17 @@
 from tkinter import *
 import logginManager
+import sqlite3
 
 root = Tk()
 miFrame = Frame(root, width=700, height=500)
 miFrame.pack()
 
-def loggin(empresa, correo_electronico, password):
-    log = logginManager.log(empresa, correo_electronico, password)
-    print(log)
-    log.register()
+def loggin(empresa, correo_electronico, password, confimacion_password):
+    if(password == confimacion_password):
+        log = logginManager.log(empresa, correo_electronico, password)
+        # print(log)
+        log.isNewLoggin()
+        
 
 root.title("Loggin CRM")
 
@@ -45,8 +48,7 @@ row+=1
 botonCancelar = Button (miFrame, text="Cancelar")
 botonCancelar.grid(row = row, column = 0, pady=20)
 
-# botonEnvio = Button (miFrame, text="Enviar", command=lambda:loggin(empresa.get(), correo_electronico.get(), password.get()))
-botonEnvio = Button (miFrame, text="Enviar", command=lambda:loggin(empresa=empresa.get(), correo_electronico=correo_electronico.get(), password=password.get()))
+botonEnvio = Button (miFrame, text="Enviar", command=lambda:loggin(empresa=empresa.get(), correo_electronico=correo_electronico.get(), password=password.get(), confimacion_password=confirmar_password.get()))
 botonEnvio.grid(row = row, column = 1)
 
 root.mainloop()

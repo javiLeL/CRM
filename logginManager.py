@@ -3,7 +3,7 @@ import sqlite3
 class log:
     def __init__(self, empresa, correo_electronico, password):
         self.empresa=str(empresa)
-        self.correo_electrónico=str(correo_electronico)
+        self.correo_electronico=str(correo_electronico)
         self.password=str(password)
         try:
             miConexion = sqlite3.connect("LOGGIN")
@@ -23,27 +23,28 @@ class log:
             try:
                 miConexion = sqlite3.connect("LOGGIN")
                 miCursor = miConexion.cursor()
-                
-                miCursor.executemany("INSERT INTO LOGGIN VALUES (?, ?, ?)", [(str(self.empresa), str(self.correo_electrónico), str(self.password))])
-
+                miCursor.executemany("INSERT INTO LOGGIN VALUES (?, ?, ?)", [(str(self.empresa), str(self.correo_electronico), str(self.password))])
                 miConexion.commit()
                 miConexion.close()
             except:
-                print("error")
+                print("Error correo ya existente")
 
     def loggin ():
         pass
 
     def isNewLoggin(self):
+        lista=[]
         try:
             miConexion = sqlite3.connect("LOGGIN")
             miCursor = miConexion.cursor()
-
-            miCursor.execute("SELECT * FROM LOGGIN WHERE correo_electronico=?", [(self.correo_electronico)])
+            miCursor.execute("SELECT * FROM LOGGIN WHERE correo_electronico=?", [(str(self.correo_electronico))])
             lista = miCursor.fetchall()
-            print(lista)
+            # print(lista)
         except:
+            print("Error al buscar los datos")
+        if(lista==[]):
+            print("No se encontro el correo registrando...")
             self.register()
 
     def __str__(self):
-        return "Empresa: "+self.empresa+" Correo: "+self.correo_electrónico+" passwd: "+self.password
+        return "Empresa: "+self.empresa+" Correo: "+self.correo_electronico+" passwd: "+self.password
