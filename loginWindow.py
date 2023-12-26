@@ -1,26 +1,10 @@
 from tkinter import *
 from tkinter import messagebox
-import sqlite3
+import logginManager
 
 root = Tk()
-
 miFrame = Frame(root, width=700, height=500)
 miFrame.pack()
-
-try:
-    miConexion = sqlite3.connect("LOGIN")
-    miCursor = miConexion.cursor()
-    miCursor.execute("""
-                        CREATE TABLE LOGIN (
-                            id VARCHAR(50) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                            nombre_empresa VARCHAR(50) NOT NULL,
-                            correo_electrónico VARCHAR(50) NOT NULL,
-                            contrasena VARCHAR(50) NOT NULL
-                    );""")
-    miConexion.commit()
-    miConexion.close()
-except:
-    pass
 
 root.title("Loggin CRM")
 
