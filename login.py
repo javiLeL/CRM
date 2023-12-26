@@ -48,8 +48,16 @@ password2 = Label(miFrame, text = "Password: ").grid(row = row, column = 0, stic
 row+=1
 
 confirmar_password = StringVar()
-confirmar_password2 = Entry(miFrame, textvariable = password)
+confirmar_password2 = Entry(miFrame, textvariable = confirmar_password)
 confirmar_password2.grid(row = row, column = 1, padx=10, pady=10)
 confirmar_password2 = Label(miFrame, text = "Confirmar Password: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+row+=1
+
+botonCancelar = Button (miFrame, text="Cancelar")
+botonCancelar.grid(row = row, column = 0, pady=20)
+
+botonEnvio = Button (miFrame, text="Enviar")
+botonEnvio.grid(row = row, column = 1)
 
 root.mainloop()
