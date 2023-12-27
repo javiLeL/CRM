@@ -27,8 +27,29 @@ class log:
                 miConexion.commit()
                 miConexion.close()
             except:
-                print("Error correo ya existente")
-
+                print("Error al crear el registro")
+            
+            try:
+                miConexion = sqlite3.connect(str(self.empresa).upper())
+                miCursor = miConexion.cursor()
+                miCursor.execute("""
+                                    CREATE TABLE USUARIOS (
+                                        nombre VARCHAR(50) PRIMARY KEY,
+                                        password VARCHAR(50)
+                                );""")
+                miConexion.commit()
+                miConexion.close()
+            except:
+                print("Ya esta creada la base de datos "+str(self.empresa).upper())
+            
+            try:
+                miConexion = sqlite3.connect(str(self.empresa).upper())
+                miCursor = miConexion.cursor()
+                miCursor.executemany("INSERT INTO USUARIOS VALUES (?, ?)", [("root", "toor")])
+                miConexion.commit()
+                miConexion.close()
+            except:
+                print("Error al crear el registro")
     def loggin ():
         pass
 
@@ -42,6 +63,7 @@ class log:
             # print(lista)
         except:
             print("Error al buscar los datos")
+        print(lista)
         if(lista==[]):
             print("No se encontro el correo registrando...")
             self.register()

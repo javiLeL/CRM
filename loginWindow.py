@@ -1,6 +1,5 @@
 from tkinter import *
 import logginManager
-import sqlite3
 
 root = Tk()
 miFrame = Frame(root, width=700, height=500)
