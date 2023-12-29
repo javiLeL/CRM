@@ -1,12 +1,25 @@
+import sqlite3
 from tkinter import *
 import logginWindow
+
 empresa = None
+
 def cancelarLogginBBDD():
     logginToBBDD.destroy()
     logginWindow.functionLogginWindow()
 
-def enviarLogginBBDD():
-    print(empresa)
+def enviarLogginBBDD(name, passwd):
+    try:
+        miConexion = sqlite3.connect("AWA")
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT * FROM USUARIOS WHERE nombre=?", [(name)])
+        lista = miCursor.fetchall()
+        # print(lista)
+    except:
+        print("Error al buscar los datos")
+
+    if(lista[0][1]==passwd):
+        print("hola")
 
 def logginBBDD(bbdd):
     global logginToBBDD
@@ -37,7 +50,7 @@ def logginBBDD(bbdd):
     botonCancelar = Button (miFrame, text="Cancelar", command=cancelarLogginBBDD)
     botonCancelar.grid(row = row, column = 0, pady=20)
 
-    botonEnvio = Button (miFrame, text="Enviar", command=enviarLogginBBDD)
+    botonEnvio = Button (miFrame, text="Enviar", command=lambda:enviarLogginBBDD(str(name.get()), str(password.get())))
     botonEnvio.grid(row = row, column = 1)
 
     logginToBBDD.mainloop()
