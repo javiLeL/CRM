@@ -37,7 +37,36 @@ class log:
                                     CREATE TABLE USUARIOS (
                                         nombre VARCHAR(50) PRIMARY KEY,
                                         password VARCHAR(50)
-                                );""")
+                                    );""")
+                miCursor.execute("""
+                                    CREATE TABLE CONTACTOS (
+                                        ID VARCHAR(50) PRIMARY KEY,
+                                        nombre VARCHAR(50),
+                                        calle VARCHAR(50),
+                                        codigopostal VARCHAR(50),
+                                        telefono VARCHAR(50),
+                                        personaContacto VARCHAR(50),
+                                        correo_electronico VARCHAR(50),
+                                        porcentaje_iva VARCHAR(50)
+                                    );""")
+                miCursor.execute("""
+                                    CREATE TABLE OPORTUNIDADES (
+                                        ID VARCHAR(50) PRIMARY KEY,
+                                        contacto VARCHAR(50),
+                                        nombre VARCHAR(50),
+                                        correo_electronico VARCHAR(50),
+                                        telefono VARCHAR(50),
+                                        ingreso VARCHAR(50),
+                                        estado VARCHAR(50)
+                                    );""")
+                miCursor.execute("""
+                                    CREATE TABLE PRODUCTOS (
+                                        ID VARCHAR(50) PRIMARY KEY,
+                                        nombre VARCHAR(50),
+                                        descripcion VARCHAR(50),
+                                        stok VARCHAR(50),
+                                        precio VARCHAR(50)
+                                    );""")
                 miConexion.commit()
                 miConexion.close()
             except:
