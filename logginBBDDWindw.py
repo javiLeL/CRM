@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import *
+import CRM_Window
 import logginWindow
 
 empresa = None
@@ -19,7 +20,8 @@ def enviarLogginBBDD(name, passwd):
         print("Error al buscar los datos")
 
     if(lista[0][1]==passwd):
-        print("hola")
+        logginToBBDD.destroy()
+        CRM_Window.CRM_Window()
 
 def logginBBDD(bbdd):
     global logginToBBDD
