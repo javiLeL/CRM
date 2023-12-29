@@ -7,9 +7,8 @@ def loggin(empresa, correo_electronico, password, confimacion_password):
         log = logginManager.log(empresa, correo_electronico, password)
         # print(log)
         if(log.isLoggin()):
-            print("paso")
             logginWindow.destroy()
-            logginBBDDWindw.logginBBDD()
+            logginBBDDWindw.logginBBDD(log.empresa)
 
 def functionLogginWindow():
     global logginWindow

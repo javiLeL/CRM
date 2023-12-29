@@ -1,27 +1,18 @@
 from tkinter import *
-import logginManager
 import logginWindow
-
-# Funcion de los botones 
-def loggin(empresa, correo_electronico, password, confimacion_password):
-    if(password == confimacion_password):
-        log = logginManager.log(empresa, correo_electronico, password)
-        # print(log)
-        if(log.isLoggin()):
-            print("paso")
-            logginWindow.destroy()
-            logginBBDD()
-
+empresa = None
 def cancelarLogginBBDD():
     logginToBBDD.destroy()
     logginWindow.functionLogginWindow()
 
 def enviarLogginBBDD():
-    pass
+    print(empresa)
 
-# Funcion de las ventanas
-def logginBBDD():
+def logginBBDD(bbdd):
     global logginToBBDD
+    global empresa
+    if(bbdd!=None):
+        empresa = bbdd
     logginToBBDD = Tk()
     miFrame = Frame(logginToBBDD, width=700, height=500)
     miFrame.pack()
@@ -46,7 +37,7 @@ def logginBBDD():
     botonCancelar = Button (miFrame, text="Cancelar", command=cancelarLogginBBDD)
     botonCancelar.grid(row = row, column = 0, pady=20)
 
-    botonEnvio = Button (miFrame, text="Enviar")
+    botonEnvio = Button (miFrame, text="Enviar", command=enviarLogginBBDD)
     botonEnvio.grid(row = row, column = 1)
 
     logginToBBDD.mainloop()
