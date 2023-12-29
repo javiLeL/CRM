@@ -10,8 +10,8 @@ class log:
             miCursor = miConexion.cursor()
             miCursor.execute("""
                                 CREATE TABLE LOGGIN (
-                                    correo_electronico VARCHAR(50) PRIMARY KEY,
                                     nombre_empresa VARCHAR(50),
+                                    correo_electronico VARCHAR(50) PRIMARY KEY,
                                     password VARCHAR(50)
                             );""")
             miConexion.commit()
@@ -60,7 +60,6 @@ class log:
             miCursor = miConexion.cursor()
             miCursor.execute("SELECT * FROM LOGGIN WHERE correo_electronico=?", [(str(self.correo_electronico))])
             lista = miCursor.fetchall()
-            # print(lista)
         except:
             print("Error al buscar los datos")
         print(lista)
