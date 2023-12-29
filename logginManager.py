@@ -17,8 +17,9 @@ class log:
             miConexion.commit()
             miConexion.close()
         except:
-            print("Ya esta creada la base de datos LOGGIN")
-        print("Creada conexion")
+            pass
+            # print("Ya esta creada la base de datos LOGGIN")
+        # print("Creada conexion")
     def register(self):
             try:
                 miConexion = sqlite3.connect("LOGGIN")
@@ -53,7 +54,7 @@ class log:
     def loggin ():
         pass
 
-    def isNewLoggin(self):
+    def isLoggin(self):
         lista=[]
         try:
             miConexion = sqlite3.connect("LOGGIN")
@@ -62,10 +63,14 @@ class log:
             lista = miCursor.fetchall()
         except:
             print("Error al buscar los datos")
-        print(lista)
+        print()
         if(lista==[]):
             print("No se encontro el correo registrando...")
             self.register()
-
+        else:
+            if(str(lista[0][2])==self.password and str(lista[0][0])==self.empresa): 
+                return True
+            else:
+                return False
     def __str__(self):
         return "Empresa: "+self.empresa+" Correo: "+self.correo_electronico+" passwd: "+self.password
