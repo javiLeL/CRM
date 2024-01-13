@@ -13,7 +13,7 @@ def CRM_Window():
     contactosMenu = Menu(barraMenu, tearoff=0)
     contactosMenu.add_command(label = "Nuevo")
     contactosMenu.add_command(label = "Modificar")
-    contactosMenu.add_command(label = "Leer")
+    contactosMenu.add_command(label = "Ver")
     contactosMenu.add_command(label = "Borrar")
 
     oportunidadMenu = Menu(barraMenu, tearoff=0)
@@ -24,13 +24,13 @@ def CRM_Window():
     presupuestosMenu = Menu(barraMenu, tearoff=0)
     presupuestosMenu.add_command(label = "Nuevo")
     presupuestosMenu.add_command(label = "Modificar")
-    presupuestosMenu.add_command(label = "Leer")
+    presupuestosMenu.add_command(label = "Ver")
     presupuestosMenu.add_command(label = "Borrar")
 
     productosMenu = Menu(barraMenu, tearoff=0)
     productosMenu.add_command(label = "Nuevo")
     productosMenu.add_command(label = "Modificar")
-    productosMenu.add_command(label = "Leer")
+    productosMenu.add_command(label = "Ver")
     productosMenu.add_command(label = "Borrar")
 
     barraMenu.add_cascade(label = "Contactos", menu = contactosMenu)
@@ -40,4 +40,4 @@ def CRM_Window():
 
     CRM_Window_VAR.mainloop()
 
-CRM_Window()
+# CRM_Window()
