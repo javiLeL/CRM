@@ -10,15 +10,16 @@ def CRM_Window():
     barraMenu = Menu(CRM_Window_VAR)
     CRM_Window_VAR.config(menu=barraMenu, width="300", height="200")
 
-    contactosMenu = Menu(barraMenu, tearoff=0)
-    contactosMenu.add_command(label = "Nuevo")
-    contactosMenu.add_command(label = "Modificar")
-    contactosMenu.add_command(label = "Ver")
-    contactosMenu.add_command(label = "Borrar")
+    clientesMenu = Menu(barraMenu, tearoff=0)
+    clientesMenu.add_command(label = "Nuevo")
+    clientesMenu.add_command(label = "Modificar")
+    clientesMenu.add_command(label = "Ver")
+    clientesMenu.add_command(label = "Borrar")
 
     oportunidadMenu = Menu(barraMenu, tearoff=0)
     oportunidadMenu.add_command(label = "Nueva")
     oportunidadMenu.add_command(label = "Modificar")
+    oportunidadMenu.add_command(label = "Ver")
     oportunidadMenu.add_command(label = "Borrar")
 
     presupuestosMenu = Menu(barraMenu, tearoff=0)
@@ -33,11 +34,9 @@ def CRM_Window():
     productosMenu.add_command(label = "Ver")
     productosMenu.add_command(label = "Borrar")
 
-    barraMenu.add_cascade(label = "Contactos", menu = contactosMenu)
+    barraMenu.add_cascade(label = "Cliente", menu = clientesMenu)
     barraMenu.add_cascade(label = "Contactos", menu = oportunidadMenu)
     barraMenu.add_cascade(label = "Presupuestos", menu = presupuestosMenu)
     barraMenu.add_cascade(label = "Productos", menu = productosMenu)
 
     CRM_Window_VAR.mainloop()
-
-# CRM_Window()
