@@ -21,7 +21,7 @@ def enviarLogginBBDD(name, passwd):
 
     if(lista[0][1]==passwd):
         logginToBBDD.destroy()
-        CRM_Window.CRM_Window()
+        CRM_Window.CRM_Window(empresa)
 
 def logginBBDD(bbdd):
     global logginToBBDD

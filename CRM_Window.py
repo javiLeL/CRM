@@ -1,12 +1,14 @@
 from tkinter import *
 import cliente_window
 
-def CRM_Window():
+def CRM_Window(bbdd):
     global CRM_Window_VAR
+    global empresa
+    empresa = bbdd
     CRM_Window_VAR = Tk()
     miFrame = Frame(CRM_Window_VAR, width=700, height=500)
     miFrame.pack()
-    CRM_Window_VAR.title("CRM")
+    CRM_Window_VAR.title("CRM de " + empresa)
 
     barraMenu = Menu(CRM_Window_VAR)
     CRM_Window_VAR.config(menu=barraMenu, width="300", height="200")
