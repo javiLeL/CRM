@@ -27,7 +27,7 @@ def logginBBDD(bbdd):
     global logginToBBDD
     global empresa
     if(bbdd!=None):
-        empresa = bbdd
+        empresa = bbdd.upper()
     logginToBBDD = Tk()
     miFrame = Frame(logginToBBDD, width=700, height=500)
     miFrame.pack()
