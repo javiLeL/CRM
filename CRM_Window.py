@@ -14,7 +14,7 @@ def CRM_Window(bbdd):
     CRM_Window_VAR.config(menu=barraMenu, width="300", height="200")
 
     clientesMenu = Menu(barraMenu, tearoff=0)
-    clientesMenu.add_command(label = "Nuevo", command=lambda:cliente_window.ventana_añadir())
+    clientesMenu.add_command(label = "Nuevo", command=lambda:cliente_window.ventana_añadir(empresa))
     clientesMenu.add_command(label = "Modificar")
     clientesMenu.add_command(label = "Ver")
     clientesMenu.add_command(label = "Borrar")
