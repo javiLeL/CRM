@@ -39,33 +39,54 @@ class log:
                                         password VARCHAR(50)
                                     );""")
                 miCursor.execute("""
-                                    CREATE TABLE CONTACTOS (
-                                        ID VARCHAR(50) PRIMARY KEY,
-                                        nombre VARCHAR(50),
-                                        calle VARCHAR(50),
-                                        codigopostal VARCHAR(50),
-                                        telefono VARCHAR(50),
-                                        personaContacto VARCHAR(50),
-                                        correo_electronico VARCHAR(50),
-                                        porcentaje_iva VARCHAR(50)
+                                    CREATE TABLE CLIENTE (
+                                        id_cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        nombre VARCHAR(50) NOT NULL,
+                                        calle VARCHAR(50) NOT NULL,
+                                        codigo_postal VARCHAR(50) NOT NULL,
+                                        ciudad VARCHAR(50) NOT NULL,
+                                        pais VARCHAR(50) NOT NULL,
+                                        telefono VARCHAR(50) NOT NULL,
+                                        persona_de_contacto VARCHAR(50) NOT NULL,
+                                        correo_electronico VARCHAR(50) NOT NULL,
+                                        iva VARCHAR(50) NOT NULL
                                     );""")
                 miCursor.execute("""
-                                    CREATE TABLE OPORTUNIDADES (
-                                        ID VARCHAR(50) PRIMARY KEY,
-                                        contacto VARCHAR(50),
-                                        nombre VARCHAR(50),
-                                        correo_electronico VARCHAR(50),
-                                        telefono VARCHAR(50),
-                                        ingreso VARCHAR(50),
-                                        estado VARCHAR(50)
+                                    CREATE TABLE PRESUPUESTO (
+                                        id_presupuesto INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        nombre VARCHAR(50) NOT NULL,
+                                        fecha_creacion VARCHAR(50) NOT NULL,
+                                        fecha_expiracion VARCHAR(50),
+                                        id_cliente INTEGER NOT NULL NOT NULL,
+                                        FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente)
                                     );""")
                 miCursor.execute("""
-                                    CREATE TABLE PRODUCTOS (
-                                        ID VARCHAR(50) PRIMARY KEY,
-                                        nombre VARCHAR(50),
-                                        descripcion VARCHAR(50),
-                                        stok VARCHAR(50),
-                                        precio VARCHAR(50)
+                                    CREATE TABLE OPORTUNIDAD (
+                                        id_oportunidad INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        nombre VARCHAR(50) NOT NULL,
+                                        ingreso INTEGER NOT NULL,
+                                        estado VARCHAR(50) NOT NULL,
+                                        id_cliente INTEGER NOT NULL,
+                                        id_presupuesto INTEGER NOT NULL,
+                                        FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente),
+                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto)
+                                    );""")
+                miCursor.execute("""
+                                    CREATE TABLE PRODUCTO (
+                                        id_producto INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        nombre VARCHAR(50) NOT NULL,
+                                        descripcion VARCHAR(50) NOT NULL,
+                                        stock INTEGER NOT NULL,
+                                        precio_unitario INTEGER NOT NULL
+                                    );""")
+                miCursor.execute("""
+                                    CREATE TABLE PEDIDO (
+                                        id_presupuesto INTEGER NOT NULL,
+                                        id_producto INTEGER NOT NULL,
+                                        cantidad INTEGER NOT NULL,
+                                        PRIMARY KEY(id_presupuesto, id_producto),
+                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto),
+                                        FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
                                     );""")
                 miConexion.commit()
                 miConexion.close()
