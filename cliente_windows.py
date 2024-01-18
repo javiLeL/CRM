@@ -1,6 +1,9 @@
-import tkinter as tk
 from tkinter import *
 import sqlite3
+
+def exit_btn():
+    ventana_añadir_var.destroy()
+    ventana_añadir_var.update()
 
 def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     print([(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico))])
@@ -11,6 +14,7 @@ def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de
         miConexion.commit()
         miConexion.close()
         print("Introducido")
+        exit_btn()
     except:
         print("Error al crear el registro")
 
@@ -18,7 +22,7 @@ def ventana_añadir(bbdd):
     global ventana_añadir_var
     global empresa
     empresa = bbdd
-    ventana_añadir_var = tk.Toplevel()
+    ventana_añadir_var = Toplevel()
     miFrame = Frame(ventana_añadir_var, width=700, height=500)
     miFrame.pack()
     ventana_añadir_var.title("Nuevo Cliente")
@@ -90,7 +94,7 @@ def ventana_añadir(bbdd):
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Cancelar")
+    botonEnvio = Button (miFrame, text="Cancelar", command=exit_btn)
     botonEnvio.grid(row = row, column = 0)
 
     botonEnvio = Button (miFrame, text="Enviar", command=lambda:new_cliente(nombre=nombre.get(), calle=calle.get(), codigo_postal=codigo_postal.get(), ciudad=ciudad.get(), pais=pais.get(), telefono=telefono.get(), persona_de_contacto=persona_contacto.get(), correo_electronico=correo_electronico.get(), iva=iva.get()))
