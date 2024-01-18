@@ -1,5 +1,6 @@
 from tkinter import *
-import cliente_window
+import cliente_windows
+import producto_windows
 
 def CRM_Window(bbdd):
     global CRM_Window_VAR
@@ -14,7 +15,7 @@ def CRM_Window(bbdd):
     CRM_Window_VAR.config(menu=barraMenu, width="300", height="200")
 
     clientesMenu = Menu(barraMenu, tearoff=0)
-    clientesMenu.add_command(label = "Nuevo", command=lambda:cliente_window.ventana_añadir(empresa))
+    clientesMenu.add_command(label = "Nuevo", command=lambda:cliente_windows.ventana_añadir(empresa))
     clientesMenu.add_command(label = "Modificar")
     clientesMenu.add_command(label = "Ver")
     clientesMenu.add_command(label = "Borrar")
@@ -32,7 +33,7 @@ def CRM_Window(bbdd):
     presupuestosMenu.add_command(label = "Borrar")
 
     productosMenu = Menu(barraMenu, tearoff=0)
-    productosMenu.add_command(label = "Nuevo")
+    productosMenu.add_command(label = "Nuevo", command=lambda:producto_windows.ventana_añadir(empresa))
     productosMenu.add_command(label = "Modificar")
     productosMenu.add_command(label = "Ver")
     productosMenu.add_command(label = "Borrar")
