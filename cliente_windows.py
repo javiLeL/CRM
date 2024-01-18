@@ -2,9 +2,15 @@ from tkinter import *
 from tkinter import ttk
 import sqlite3
 
-def exit_btn():
-    ventana_añadir_var.destroy()
-    ventana_añadir_var.update()
+def p(combo):
+    id = str(combo.get())
+    id = id.split(" ")
+    print(id[0])
+
+
+def exit_btn(ventana):
+    ventana.destroy()
+    ventana.update()
 
 def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     print([(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico))])
@@ -106,7 +112,7 @@ def ventana_añadir(bbdd):
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Cancelar", command=exit_btn)
+    botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_añadir_var))
     botonEnvio.grid(row = row, column = 0)
 
     botonEnvio = Button (miFrame, text="Enviar", command=lambda:new_cliente(nombre=nombre.get(), calle=calle.get(), codigo_postal=codigo_postal.get(), ciudad=ciudad.get(), pais=pais.get(), telefono=telefono.get(), persona_de_contacto=persona_contacto.get(), correo_electronico=correo_electronico.get(), iva=iva.get()))
@@ -124,9 +130,11 @@ def ventana_ver(bbdd):
     row = 0
 
     listaContactos = select_clientes()
-    comboNuevas = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
-    comboNuevas.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
-    comboNuevas = Label(miFrame, text = "ID: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = Label(miFrame, text = "ID: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
+    combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    print(combo.get())
 
     row += 1
 
@@ -194,5 +202,8 @@ def ventana_ver(bbdd):
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Cancelar", command=exit_btn)
+    botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_ver_var))
     botonEnvio.grid(row = row, column = 0)
+
+    botonEnvio = Button (miFrame, text="Buscar", command=lambda:p(combo=combo))
+    botonEnvio.grid(row = row, column = 1)
