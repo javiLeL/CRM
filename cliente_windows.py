@@ -18,6 +18,17 @@ def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de
     except:
         print("Error al crear el registro")
 
+def select_clientes(empresa):
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT * FROM CLIENTE")
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    print(lista)
+
 def ventana_añadir(bbdd):
     global ventana_añadir_var
     global empresa
