@@ -1,3 +1,3 @@
-import logginWindow 
+import logginWindow
 
 logginWindow.functionLogginWindow()

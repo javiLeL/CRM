@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import sqlite3
 
 def exit_btn():
@@ -18,16 +19,17 @@ def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de
     except:
         print("Error al crear el registro")
 
-def select_clientes(empresa):
+def select_clientes():
     lista = []
     try:
         miConexion = sqlite3.connect(empresa)
         miCursor = miConexion.cursor()
-        miCursor.execute("SELECT * FROM CLIENTE")
+        miCursor.execute("SELECT id_cliente, nombre FROM CLIENTE")
         lista = miCursor.fetchall()
     except:
         print("Error al buscar los datos")
-    print(lista)
+    # print(lista)
+    return(lista)
 
 def ventana_añadir(bbdd):
     global ventana_añadir_var
@@ -110,3 +112,16 @@ def ventana_añadir(bbdd):
 
     botonEnvio = Button (miFrame, text="Enviar", command=lambda:new_cliente(nombre=nombre.get(), calle=calle.get(), codigo_postal=codigo_postal.get(), ciudad=ciudad.get(), pais=pais.get(), telefono=telefono.get(), persona_de_contacto=persona_contacto.get(), correo_electronico=correo_electronico.get(), iva=iva.get()))
     botonEnvio.grid(row = row, column = 1)
+
+def ventana_ver(bbdd):
+    global ventana_añadir_var
+    global empresa
+    empresa = bbdd
+    ventana_añadir_var = Toplevel()
+    miFrame = Frame(ventana_añadir_var, width=700, height=500)
+    miFrame.pack()
+    ventana_añadir_var.title("Ver Clientes")
+    
+    listaContactos = select_clientes()
+    comboNuevas = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
+    comboNuevas.grid(row = 1, column = 0, columnspan=2, sticky="e", padx=10, pady=10)
