@@ -138,67 +138,67 @@ def ventana_ver(bbdd):
 
     row += 1
 
-    nombre = StringVar()
-    nombre2 = Entry(miFrame, textvariable = nombre)
-    nombre2.grid(row = row, column = 1, padx=10, pady=10)
-    nombre2 = Label(miFrame, text = "Nombre: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    global nombrever, callever, codigo_postalver, ciudadver, paisver, telefonover, persona_contactover, correo_electronicover, ivaver
+    nombrever = StringVar()
+    nombrever2 = Entry(miFrame, textvariable = nombrever)
+    nombrever2.grid(row = row, column = 1, padx=10, pady=10)
+    nombrever2 = Label(miFrame, text = "Nombre: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    calle = StringVar()
-    calle2 = Entry(miFrame, textvariable = calle)
-    calle2.grid(row = row, column = 1, padx=10, pady=10)
-    calle2 = Label(miFrame, text = "Calle: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    callever = StringVar()
+    callever2 = Entry(miFrame, textvariable = callever)
+    callever2.grid(row = row, column = 1, padx=10, pady=10)
+    callever2 = Label(miFrame, text = "Calle: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    codigo_postal = StringVar()
-    codigo_postal2 = Entry(miFrame, textvariable = codigo_postal)
-    codigo_postal2.grid(row = row, column = 1, padx=10, pady=10)
-    codigo_postal2 = Label(miFrame, text = "Codigo Postal: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    codigo_postalver = StringVar()
+    codigo_postalver2 = Entry(miFrame, textvariable = codigo_postalver)
+    codigo_postalver2.grid(row = row, column = 1, padx=10, pady=10)
+    codigo_postalver2 = Label(miFrame, text = "Codigo Postal: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    ciudad = StringVar()
-    ciudad2 = Entry(miFrame, textvariable = ciudad)
-    ciudad2.grid(row = row, column = 1, padx=10, pady=10)
-    ciudad2 = Label(miFrame, text = "Ciudad: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    ciudadver = StringVar()
+    ciudadver2 = Entry(miFrame, textvariable = ciudadver)
+    ciudadver2.grid(row = row, column = 1, padx=10, pady=10)
+    ciudadver2 = Label(miFrame, text = "Ciudad: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    pais = StringVar()
-    pais2 = Entry(miFrame, textvariable = pais)
-    pais2.grid(row = row, column = 1, padx=10, pady=10)
-    pais2 = Label(miFrame, text = "Pais: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    paisver = StringVar()
+    paisver2 = Entry(miFrame, textvariable = paisver)
+    paisver2.grid(row = row, column = 1, padx=10, pady=10)
+    paisver2 = Label(miFrame, text = "Pais: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    telefono = StringVar()
-    telefono2 = Entry(miFrame, textvariable = telefono)
-    telefono2.grid(row = row, column = 1, padx=10, pady=10)
-    telefono2 = Label(miFrame, text = "Telefono: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    telefonover = StringVar()
+    telefonover2 = Entry(miFrame, textvariable = telefonover)
+    telefonover2.grid(row = row, column = 1, padx=10, pady=10)
+    telefonover2 = Label(miFrame, text = "Telefono: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    persona_contacto = StringVar()
-    persona_contacto2 = Entry(miFrame, textvariable = persona_contacto)
-    persona_contacto2.grid(row = row, column = 1, padx=10, pady=10)
-    persona_contacto2 = Label(miFrame, text = "Persona de Contacto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    persona_contactover = StringVar()
+    persona_contactover2 = Entry(miFrame, textvariable = persona_contactover)
+    persona_contactover2.grid(row = row, column = 1, padx=10, pady=10)
+    persona_contactover2 = Label(miFrame, text = "Persona de Contacto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    correo_electronico = StringVar()
-    correo_electronico2 = Entry(miFrame, textvariable = correo_electronico)
-    correo_electronico2.grid(row = row, column = 1, padx=10, pady=10)
-    correo_electronico2 = Label(miFrame, text = "Correo Electronico: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    correo_electronicover = StringVar()
+    correo_electronicover2 = Entry(miFrame, textvariable = correo_electronicover)
+    correo_electronicover2.grid(row = row, column = 1, padx=10, pady=10)
+    correo_electronicover2 = Label(miFrame, text = "Correo Electronico: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
-    iva = StringVar()
-    iva.set("21")
-    iva2 = Entry(miFrame, textvariable = iva)
-    iva2.grid(row = row, column = 1, padx=10, pady=10)
-    iva2 = Label(miFrame, text = "IVA: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    ivaver = StringVar()
+    iva2ver = Entry(miFrame, textvariable = ivaver)
+    iva2ver.grid(row = row, column = 1, padx=10, pady=10)
+    iva2ver = Label(miFrame, text = "IVA: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
 
     row += 1
 
