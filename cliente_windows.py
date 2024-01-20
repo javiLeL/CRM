@@ -2,6 +2,19 @@ from tkinter import *
 from tkinter import ttk
 import sqlite3
 
+def delete(combo):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.executemany("DELETE FROM CLIENTE WHERE id_cliente=?", [(str(id))])
+        miConexion.commit()
+        miConexion.close()
+        print("Borrado")
+        exit_btn(ventana_borrar_var)
+    except:
+        print("Error al borrar el registro")
 def getSelection(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -349,4 +362,28 @@ def ventana_actualizar(bbdd):
     row += 1
 
     botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), calle=calleact.get(), codigo_postal=codigo_postalact.get(), ciudad=ciudadact.get(), pais=paisact.get(), telefono=telefonoact.get(), persona_de_contacto=persona_contactoact.get(), correo_electronico=correo_electronicoact.get(), iva=ivaact.get()))
+    botonEnvio.grid(row = row, column = 1)
+
+def ventana_borrar(bbdd):
+    global ventana_borrar_var
+    global empresa
+    empresa = bbdd
+    ventana_borrar_var = Toplevel()
+    miFrame = Frame(ventana_borrar_var, width=700, height=500)
+    miFrame.pack()
+    ventana_borrar_var.title("Borrar Cliente")
+
+    row = 0
+
+    listaContactos = select_clientes()
+    combo = Label(miFrame, text = "ID a Borrar: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
+    combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_borrar_var))
+    botonCancelar.grid(row = row, column = 0)
+
+    botonEnvio = Button (miFrame, text="Borrar", command=lambda:delete(combo=combo))
     botonEnvio.grid(row = row, column = 1)
