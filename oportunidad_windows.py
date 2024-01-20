@@ -68,10 +68,9 @@ def ventana_añadir(bbdd):
 
     row += 1
 
-    estado = StringVar()
-    estado2 = Entry(miFrame, textvariable = estado)
-    estado2.grid(row = row, column = 1, padx=10, pady=10)
-    estado2 = Label(miFrame, text = "Estado: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboEstado = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboEstado = ttk.Combobox(miFrame, values = ["NUEVO", "CALIFICADO", "PROPUESTA", "GANADO"], state = "readonly")
+    comboEstado.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
 
     row += 1
 
@@ -92,5 +91,5 @@ def ventana_añadir(bbdd):
     botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_añadir_var))
     botonCancelar.grid(row = row, column = 0)
 
-    botonBuscar = Button (miFrame, text="Añadir", command=lambda:new_oportunidad(nombre=nombre.get(), ingreso=ingreso.get(), estado=estado.get(), id_cliente=comboClientes, id_presupuesto=comboPresupuesto))
+    botonBuscar = Button (miFrame, text="Añadir", command=lambda:new_oportunidad(nombre=nombre.get(), ingreso=ingreso.get(), estado=comboEstado.get(), id_cliente=comboClientes, id_presupuesto=comboPresupuesto))
     botonBuscar.grid(row = row, column = 1)
