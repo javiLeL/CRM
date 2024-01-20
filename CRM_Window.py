@@ -25,7 +25,7 @@ def CRM_Window(bbdd):
     oportunidadMenu.add_command(label = "Nueva", command=lambda:oportunidad_windows.ventana_añadir(empresa))
     oportunidadMenu.add_command(label = "Modificar", command=lambda:oportunidad_windows.ventana_actualizar(empresa))
     oportunidadMenu.add_command(label = "Ver", command=lambda:oportunidad_windows.ventana_ver(empresa))
-    oportunidadMenu.add_command(label = "Borrar")
+    oportunidadMenu.add_command(label = "Borrar", command=lambda:oportunidad_windows.ventana_borrar(empresa))
 
     presupuestosMenu = Menu(barraMenu, tearoff=0)
     presupuestosMenu.add_command(label = "Nuevo")
