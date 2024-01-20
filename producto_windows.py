@@ -85,7 +85,7 @@ def select_producto():
     try:
         miConexion = sqlite3.connect(empresa)
         miCursor = miConexion.cursor()
-        miCursor.execute("SELECT id_producto, nombre nombre FROM PRODUCTO")
+        miCursor.execute("SELECT id_producto, nombre FROM PRODUCTO")
         lista = miCursor.fetchall()
     except:
         print("Error al buscar los datos")
