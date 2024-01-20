@@ -36,7 +36,7 @@ def CRM_Window(bbdd):
     productosMenu.add_command(label = "Nuevo", command=lambda:producto_windows.ventana_añadir(empresa))
     productosMenu.add_command(label = "Modificar", command=lambda:producto_windows.ventana_actualizar(empresa))
     productosMenu.add_command(label = "Ver", command=lambda:producto_windows.ventana_ver(empresa))
-    productosMenu.add_command(label = "Borrar")
+    productosMenu.add_command(label = "Borrar", command=lambda:producto_windows.ventana_borrar(empresa))
 
     barraMenu.add_cascade(label = "Cliente", menu = clientesMenu)
     barraMenu.add_cascade(label = "Contactos", menu = oportunidadMenu)

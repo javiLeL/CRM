@@ -6,6 +6,20 @@ def exit_btn(ventana):
     ventana.destroy()
     ventana.update()
 
+def delete(combo):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.executemany("DELETE FROM PRODUCTO WHERE id_producto=?", [(str(id))])
+        miConexion.commit()
+        miConexion.close()
+        print("Borrado")
+        exit_btn(ventana_borrar_var)
+    except:
+        print("Error al borrar el registro")
+
 def new_cliente(nombre, descripcion, stock, precio_unitario):
     print([(str(nombre), str(descripcion), int(stock), str(precio_unitario))])
     try:
@@ -233,3 +247,27 @@ def ventana_actualizar(bbdd):
 
     botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), descripcion=descripcionact.get(), stock=stockact.get(), precio_unitario=precio_unitarioact.get()))
     botonEnvio.grid(row = row, column = 1)
+
+def ventana_borrar(bbdd):
+    global ventana_borrar_var
+    global empresa
+    empresa = bbdd
+    ventana_borrar_var = Toplevel()
+    miFrame = Frame(ventana_borrar_var, width=700, height=500)
+    miFrame.pack()
+    ventana_borrar_var.title("Borrar Cliente")
+
+    row = 0
+
+    listaContactos = select_producto()
+    combo = Label(miFrame, text = "ID a borrar: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
+    combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_borrar_var))
+    botonCancelar.grid(row = row, column = 0)
+
+    botonBuscar = Button (miFrame, text="Borrar", command=lambda:delete(combo=combo))
+    botonBuscar.grid(row = row, column = 1)
