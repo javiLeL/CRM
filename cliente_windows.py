@@ -24,6 +24,20 @@ def getSelection(combo):
     correo_electronicover.set(lista[0][7])
     ivaver.set(lista[0][8])
 
+def update(combo, nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
+    id = str(combo.get()).split(" ")[0]
+    print((str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva), int(id)))
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.executemany("UPDATE CLIENTE SET nombre=?, calle=?, codigo_postal=?, ciudad=?, pais=?, telefono=?, persona_de_contacto=?, correo_electronico=?, iva=? WHERE id_cliente=?", [(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), str(iva), str(id))])
+        miConexion.commit()
+        miConexion.close()
+        print("Actualizado")
+        exit_btn(ventana_actualizar_var)
+    except:
+        print("Error al modificar el registro")
+
 def getSelectionUpdate(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -238,8 +252,8 @@ def ventana_ver(bbdd):
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_ver_var))
-    botonEnvio.grid(row = row, column = 0)
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_ver_var))
+    botonCancelar.grid(row = row, column = 0)
 
     botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(combo=combo))
     botonEnvio.grid(row = row, column = 1)
@@ -326,13 +340,13 @@ def ventana_actualizar(bbdd):
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_actualizar_var))
-    botonEnvio.grid(row = row, column = 0)
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_actualizar_var))
+    botonCancelar.grid(row = row, column = 0)
 
     botonBuscar = Button (miFrame, text="Buscar", command=lambda:getSelectionUpdate(combo=combo))
     botonBuscar.grid(row = row, column = 1)
 
     row += 1
 
-    botonEnvio = Button (miFrame, text="Actualizar")
+    botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), calle=calleact.get(), codigo_postal=codigo_postalact.get(), ciudad=ciudadact.get(), pais=paisact.get(), telefono=telefonoact.get(), persona_de_contacto=persona_contactoact.get(), correo_electronico=correo_electronicoact.get(), iva=ivaact.get()))
     botonEnvio.grid(row = row, column = 1)
