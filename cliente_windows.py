@@ -2,10 +2,27 @@ from tkinter import *
 from tkinter import ttk
 import sqlite3
 
-def p(combo):
-    id = str(combo.get())
-    id = id.split(" ")
-    print(id[0])
+def getSelection(combo):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva FROM CLIENTE WHERE id_cliente=?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    print(lista)
+    nombrever.set(lista[0][0])
+    callever.set(lista[0][1])
+    codigo_postalver.set(lista[0][2])
+    ciudadver.set(lista[0][3])
+    paisver.set(lista[0][4])
+    telefonover.set(lista[0][5])
+    persona_contactover.set(lista[0][6])
+    correo_electronicover.set(lista[0][7])
+    ivaver.set(lista[0][8])
 
 
 def exit_btn(ventana):
@@ -21,7 +38,7 @@ def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de
         miConexion.commit()
         miConexion.close()
         print("Introducido")
-        exit_btn()
+        exit_btn(ventana_añadir_var)
     except:
         print("Error al crear el registro")
 
@@ -205,5 +222,5 @@ def ventana_ver(bbdd):
     botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_ver_var))
     botonEnvio.grid(row = row, column = 0)
 
-    botonEnvio = Button (miFrame, text="Buscar", command=lambda:p(combo=combo))
+    botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(combo=combo))
     botonEnvio.grid(row = row, column = 1)
