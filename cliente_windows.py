@@ -39,7 +39,7 @@ def getSelection(combo):
 
 def update(combo, nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     id = str(combo.get()).split(" ")[0]
-    print((str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva), int(id)))
+    # print((str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva), int(id)))
     try:
         miConexion = sqlite3.connect(empresa)
         miCursor = miConexion.cursor()
