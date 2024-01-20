@@ -56,9 +56,7 @@ class log:
                                         id_presupuesto INTEGER PRIMARY KEY AUTOINCREMENT,
                                         nombre VARCHAR(50) NOT NULL,
                                         fecha_creacion VARCHAR(50) NOT NULL,
-                                        fecha_expiracion VARCHAR(50),
-                                        id_cliente INTEGER NOT NULL NOT NULL,
-                                        FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente)
+                                        fecha_expiracion VARCHAR(50)
                                     );""")
                 miCursor.execute("""
                                     CREATE TABLE OPORTUNIDAD (
