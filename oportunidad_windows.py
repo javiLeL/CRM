@@ -24,6 +24,58 @@ def getSelection(combo):
     clientever.set(lista[0][3])
     presupuestover.set(lista[0][4])
 
+def getPresupuestoOfOportunidad(id):
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT PRESUPUESTO.id_presupuesto, PRESUPUESTO.nombre FROM PRESUPUESTO, OPORTUNIDAD WHERE PRESUPUESTO.id_presupuesto = OPORTUNIDAD.id_presupuesto AND OPORTUNIDAD.id_oportunidad = ?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    return lista[0]
+
+def getClienteOfOportunidad(id):
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT CLIENTE.id_cliente, CLIENTE.nombre FROM CLIENTE, OPORTUNIDAD WHERE CLIENTE.id_cliente = OPORTUNIDAD.id_cliente AND OPORTUNIDAD.id_oportunidad = ?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    return lista[0]
+
+def getSelectionUpdate(combo):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT nombre, ingreso, estado FROM OPORTUNIDAD WHERE id_oportunidad = ?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    nombreact.set(lista[0][0])
+    ingresoact.set(lista[0][1])
+    comboEstadoact.set(lista[0][2])
+    comboPresupuestoact.set(getPresupuestoOfOportunidad(id))
+    comboClientesact.set(getClienteOfOportunidad(id))
+
+def update(combo, nombre, ingreso, estado, id_cliente, id_presupuesto):
+    id = str(combo.get()).split(" ")[0]
+    print([(str(nombre), str(ingreso), str(str(estado.get()).split(" ")[0]), str(id_cliente.get()).split(" ")[0], str(id_presupuesto.get()).split(" ")[0], str(id))])
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.executemany("UPDATE OPORTUNIDAD SET nombre=?, ingreso=?, estado=?, id_cliente=?, id_presupuesto=? WHERE id_oportunidad=?", [(str(nombre), str(ingreso), str(str(estado.get()).split(" ")[0]), str(id_cliente.get()).split(" ")[0], str(id_presupuesto.get()).split(" ")[0], str(id))])
+        miConexion.commit()
+        miConexion.close()
+        print("Actualizado")
+        exit_btn(ventana_actualizar_var)
+    except:
+        print("Error al modificar el registro")
+
 def select_oportunidad():
     lista = []
     try:
@@ -135,9 +187,9 @@ def ventana_ver(bbdd):
 
     row = 0
 
-    listaContactos = select_oportunidad()
+    listaOportunidad = select_oportunidad()
     combo = Label(miFrame, text = "ID: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
-    combo = ttk.Combobox(miFrame, values = listaContactos, state = "readonly")
+    combo = ttk.Combobox(miFrame, values = listaOportunidad, state = "readonly")
     combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
 
     row += 1
@@ -183,3 +235,67 @@ def ventana_ver(bbdd):
 
     botonBuscar = Button (miFrame, text="Buscar", command=lambda:getSelection(combo=combo))
     botonBuscar.grid(row = row, column = 1)
+
+def ventana_actualizar(bbdd):
+    global ventana_actualizar_var
+    global empresa
+    empresa = bbdd
+    ventana_actualizar_var = Toplevel()
+    miFrame = Frame(ventana_actualizar_var, width=700, height=500)
+    miFrame.pack()
+    ventana_actualizar_var.title("Actualizar Producto")
+
+    row = 0
+
+    listaOportunidad = select_oportunidad()
+    combo = Label(miFrame, text = "ID: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = ttk.Combobox(miFrame, values = listaOportunidad, state = "readonly")
+    combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    global nombreact, ingresoact, comboEstadoact, comboClientesact, comboPresupuestoact
+    nombreact = StringVar()
+    nombreact2 = Entry(miFrame, textvariable = nombreact)
+    nombreact2.grid(row = row, column = 1, padx=10, pady=10)
+    nombreact2 = Label(miFrame, text = "Nombre: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    ingresoact = StringVar()
+    ingresoact2 = Entry(miFrame, textvariable = ingresoact)
+    ingresoact2.grid(row = row, column = 1, padx=10, pady=10)
+    ingresoact2 = Label(miFrame, text = "Ingreso esperado: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    comboEstadoact = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboEstadoact = ttk.Combobox(miFrame, values = ["NUEVO", "CALIFICADO", "PROPUESTA", "GANADO"], state = "readonly")
+    comboEstadoact.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    listaClientes = select_clientes()
+    comboClientesact = Label(miFrame, text = "Cliente: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboClientesact = ttk.Combobox(miFrame, values = listaClientes, state = "readonly")
+    comboClientesact.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    listaPresupuesto = select_presupuesto()
+    comboPresupuestoact = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboPresupuestoact = ttk.Combobox(miFrame, values = listaPresupuesto, state = "readonly")
+    comboPresupuestoact.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_actualizar_var))
+    botonCancelar.grid(row = row, column = 0)
+
+    botonBuscar = Button (miFrame, text="Buscar", command=lambda:getSelectionUpdate(combo))
+    botonBuscar.grid(row = row, column = 1)
+
+    row += 1
+
+    botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), ingreso=ingresoact.get(), estado=comboEstadoact, id_cliente=comboClientesact, id_presupuesto=comboPresupuestoact))
+    botonEnvio.grid(row = row, column = 1)
