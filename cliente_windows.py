@@ -7,8 +7,8 @@ def delete(combo):
     print(id)
     try:
         miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("DELETE FROM CLIENTE WHERE id_cliente=?", [(str(id))])
+        miConexion.execute("PRAGMA foreign_keys=ON")
+        miConexion.executemany("DELETE FROM CLIENTE WHERE id_cliente=?", [(str(id))])
         miConexion.commit()
         miConexion.close()
         print("Borrado")
