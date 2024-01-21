@@ -66,8 +66,8 @@ class log:
                                         estado VARCHAR(50) NOT NULL,
                                         id_cliente INTEGER NOT NULL,
                                         id_presupuesto INTEGER NOT NULL,
-                                        FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente),
-                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto)
+                                        FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente) ON DELETE CASCADE,
+                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto) ON DELETE CASCADE
                                     );""")
                 miCursor.execute("""
                                     CREATE TABLE PRODUCTO (
@@ -83,8 +83,8 @@ class log:
                                         id_producto INTEGER NOT NULL,
                                         cantidad INTEGER NOT NULL,
                                         PRIMARY KEY(id_presupuesto, id_producto),
-                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto),
-                                        FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto)
+                                        FOREIGN KEY (id_presupuesto) REFERENCES PRESUPUESTO(id_presupuesto) ON DELETE CASCADE,
+                                        FOREIGN KEY (id_producto) REFERENCES PRODUCTO(id_producto) ON DELETE CASCADE
                                     );""")
                 miConexion.commit()
                 miConexion.close()
