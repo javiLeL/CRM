@@ -2,6 +2,7 @@ from tkinter import *
 import cliente_windows
 import producto_windows
 import oportunidad_windows
+import presupuesto_windows
 
 def CRM_Window(bbdd):
     global CRM_Window_VAR
@@ -28,7 +29,7 @@ def CRM_Window(bbdd):
     oportunidadMenu.add_command(label = "Borrar", command=lambda:oportunidad_windows.ventana_borrar(empresa))
 
     presupuestosMenu = Menu(barraMenu, tearoff=0)
-    presupuestosMenu.add_command(label = "Nuevo")
+    presupuestosMenu.add_command(label = "Nuevo", command=lambda:presupuesto_windows.ventana_añadir(empresa))
     presupuestosMenu.add_command(label = "Modificar")
     presupuestosMenu.add_command(label = "Ver")
     presupuestosMenu.add_command(label = "Borrar")
