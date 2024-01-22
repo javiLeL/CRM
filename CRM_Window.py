@@ -3,6 +3,7 @@ import cliente_windows
 import producto_windows
 import oportunidad_windows
 import presupuesto_windows
+import pedidos_windows
 
 def CRM_Window(bbdd):
     global CRM_Window_VAR
@@ -41,7 +42,7 @@ def CRM_Window(bbdd):
     productosMenu.add_command(label = "Borrar", command=lambda:producto_windows.ventana_borrar(empresa))
 
     pedidosMenu = Menu(barraMenu, tearoff=0)
-    pedidosMenu.add_command(label = "Nuevo")
+    pedidosMenu.add_command(label = "Nuevo", command=lambda:pedidos_windows.ventana_añadir(empresa))
     pedidosMenu.add_command(label = "Modificar")
     pedidosMenu.add_command(label = "Ver")
     pedidosMenu.add_command(label = "Borrar")

@@ -1,0 +1,82 @@
+from tkinter import *
+from tkinter import ttk
+import sqlite3
+
+def exit_btn(ventana):
+    ventana.destroy()
+    ventana.update()
+
+def new_pedido(id_presupuesto1, id_producto1, cantidad):
+    id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
+    id_producto = str(id_producto1.get()).split(" ")[0]
+    # print([(str(id_presupuesto), str(id_producto), int(cantidad))])
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miConexion.execute("PRAGMA foreign_keys=ON")
+        miConexion.executemany("INSERT INTO PEDIDO (id_presupuesto, id_producto, cantidad) VALUES (?, ?, ?)", [(str(id_presupuesto), str(id_producto), int(cantidad))])
+        miConexion.commit()
+        miConexion.close()
+        print("Introducido")
+        # exit_btn(ventana_añadir_var)
+    except:
+        print("Error al crear el registro")
+
+def select_presupuesto():
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT id_presupuesto, nombre FROM PRESUPUESTO")
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    # print(lista)
+    return(lista)
+
+def select_producto():
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT id_producto, nombre FROM PRODUCTO")
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    # print(lista)
+    return(lista)
+
+def ventana_añadir(bbdd):
+    global ventana_añadir_var
+    global empresa
+    empresa = bbdd
+    ventana_añadir_var = Toplevel()
+    miFrame = Frame(ventana_añadir_var, width=700, height=500)
+    miFrame.pack()
+    ventana_añadir_var.title("Nuevo Pedido")
+
+    row = 0
+
+    presupuesto = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    presupuesto = ttk.Combobox(miFrame, values = select_presupuesto(), state = "readonly")
+    presupuesto.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    producto = Label(miFrame, text = "Producto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    producto = ttk.Combobox(miFrame, values = select_producto(), state = "readonly")
+    producto.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    cantidad = StringVar()
+    cantidad2 = Entry(miFrame, textvariable = cantidad)
+    cantidad2.grid(row = row, column = 1, padx=10, pady=10)
+    cantidad2 = Label(miFrame, text = "Cantidad: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_añadir_var))
+    botonEnvio.grid(row = row, column = 0)
+
+    botonEnvio = Button (miFrame, text="Enviar", command=lambda:new_pedido(id_presupuesto1=presupuesto, id_producto1=producto, cantidad=cantidad.get()))
+    botonEnvio.grid(row = row, column = 1)
