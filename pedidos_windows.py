@@ -6,7 +6,7 @@ def exit_btn(ventana):
     ventana.destroy()
     ventana.update()
 
-def getSelection(combo):
+def getSelection(combo, miFrame):
     id = str(combo.get()).split(" ")[0]
     print(id)
     lista = []
@@ -20,6 +20,7 @@ def getSelection(combo):
     print(lista)
     productover = ttk.Combobox(miFrame, values = lista, state = "readonly")
     productover.grid(row = 1, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+    productover.set(lista[0])
 
 def new_pedido(id_presupuesto1, id_producto1, cantidad):
     id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
@@ -97,7 +98,7 @@ def ventana_añadir(bbdd):
     botonEnvio.grid(row = row, column = 1)
 
 def ventana_ver(bbdd):
-    global ventana_ver_var,  miFrame, productover
+    global ventana_ver_var, productover
     global empresa
     empresa = bbdd
     ventana_ver_var = Toplevel()
@@ -122,5 +123,5 @@ def ventana_ver(bbdd):
     botonEnvio = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_ver_var))
     botonEnvio.grid(row = row, column = 0)
 
-    botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(presupuesto))
+    botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(presupuesto, miFrame))
     botonEnvio.grid(row = row, column = 1)
