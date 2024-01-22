@@ -30,7 +30,7 @@ def CRM_Window(bbdd):
 
     presupuestosMenu = Menu(barraMenu, tearoff=0)
     presupuestosMenu.add_command(label = "Nuevo", command=lambda:presupuesto_windows.ventana_añadir(empresa))
-    presupuestosMenu.add_command(label = "Modificar")
+    presupuestosMenu.add_command(label = "Modificar", command=lambda:presupuesto_windows.ventana_actualizar(empresa))
     presupuestosMenu.add_command(label = "Ver", command=lambda:presupuesto_windows.ventana_ver(empresa))
     presupuestosMenu.add_command(label = "Borrar")
 

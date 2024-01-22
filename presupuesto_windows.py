@@ -22,6 +22,35 @@ def getSelection(combo):
     fecha_creacionver.set(lista[0][1])
     fecha_expiracionver.set(lista[0][2])
 
+def update(combo, nombre, fecha_creacion, fecha_expiracion):
+    id = str(combo.get()).split(" ")[0]
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.executemany("UPDATE PRESUPUESTO SET nombre=?, fecha_creacion=?, fecha_expiracion=? WHERE id_presupuesto=?", [(str(nombre), str(fecha_creacion), str(fecha_expiracion), str(id))])
+        miConexion.commit()
+        miConexion.close()
+        print("Actualizado")
+        exit_btn(ventana_actualizar_var)
+    except:
+        print("Error al modificar el registro")
+
+def getSelectionUpdate(combo):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT nombre, fecha_creacion, fecha_expiracion FROM PRESUPUESTO WHERE id_presupuesto=?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    print(lista)
+    nombreact.set(lista[0][0])
+    fecha_creacionact.set(lista[0][1])
+    fecha_expiracionact.set(lista[0][2])
+
 def select_presupuesto():
     lista = []
     try:
@@ -130,3 +159,55 @@ def ventana_ver(bbdd):
 
     botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(combo))
     botonEnvio.grid(row = row, column = 1)
+
+def ventana_actualizar(bbdd):
+    global ventana_actualizar_var
+    global empresa
+    empresa = bbdd
+    ventana_actualizar_var = Toplevel()
+    miFrame = Frame(ventana_actualizar_var, width=700, height=500)
+    miFrame.pack()
+    ventana_actualizar_var.title("Actualizar Producto")
+
+    row = 0
+
+    combo = Label(miFrame, text = "ID: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    combo = ttk.Combobox(miFrame, values = select_presupuesto(), state = "readonly")
+    combo.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    global nombreact, fecha_creacionact, fecha_expiracionact
+
+    nombreact = StringVar()
+    nombreact2 = Entry(miFrame, textvariable = nombreact)
+    nombreact2.grid(row = row, column = 1, padx=10, pady=10)
+    nombreact2 = Label(miFrame, text = "Nombre: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    fecha_creacionact = StringVar()
+    fecha_creacionact2 = Entry(miFrame, textvariable = fecha_creacionact)
+    fecha_creacionact2.grid(row = row, column = 1, padx=10, pady=10)
+    fecha_creacionact2 = Label(miFrame, text = "Fecha de Creacion: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    fecha_expiracionact = StringVar()
+    fecha_expiracionact2 = Entry(miFrame, textvariable = fecha_expiracionact)
+    fecha_expiracionact2.grid(row = row, column = 1, padx=10, pady=10)
+    fecha_expiracionact2 = Label(miFrame, text = "Fecha de Expiracion: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    
+    row += 1
+    
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_actualizar_var))
+    botonCancelar.grid(row = row, column = 0)
+
+    botonBuscar = Button (miFrame, text="Buscar", command=lambda:getSelectionUpdate(combo=combo))
+    botonBuscar.grid(row = row, column = 1)
+
+    row += 1
+
+    botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), fecha_creacion=fecha_creacionact.get(), fecha_expiracion=fecha_expiracionact.get()))
+    botonEnvio.grid(row = row, column = 1)
+
