@@ -40,9 +40,16 @@ def CRM_Window(bbdd):
     productosMenu.add_command(label = "Ver", command=lambda:producto_windows.ventana_ver(empresa))
     productosMenu.add_command(label = "Borrar", command=lambda:producto_windows.ventana_borrar(empresa))
 
+    pedidosMenu = Menu(barraMenu, tearoff=0)
+    pedidosMenu.add_command(label = "Nuevo")
+    pedidosMenu.add_command(label = "Modificar")
+    pedidosMenu.add_command(label = "Ver")
+    pedidosMenu.add_command(label = "Borrar")
+
     barraMenu.add_cascade(label = "Cliente", menu = clientesMenu)
     barraMenu.add_cascade(label = "Oportunidad", menu = oportunidadMenu)
     barraMenu.add_cascade(label = "Presupuestos", menu = presupuestosMenu)
     barraMenu.add_cascade(label = "Productos", menu = productosMenu)
+    barraMenu.add_cascade(label = "Pedidos", menu = pedidosMenu)
 
     CRM_Window_VAR.mainloop()
