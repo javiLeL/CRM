@@ -6,6 +6,21 @@ def exit_btn(ventana):
     ventana.destroy()
     ventana.update()
 
+def delete(id_presupuesto1):
+    id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
+    id_producto = str(productodel.get()).split(" ")[0]
+    print([(str(id_presupuesto), str(id_producto))])
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miConexion.execute("PRAGMA foreign_keys=ON")
+        miConexion.executemany("DELETE FROM PEDIDO WHERE id_presupuesto=? AND id_producto=?", [(str(id_presupuesto), str(id_producto))])
+        miConexion.commit()
+        miConexion.close()
+        print("Borrado")
+        exit_btn(ventana_borrar_var)
+    except:
+        print("Error al borrar el registro")
+
 def update(id_presupuesto1, cantidad):
     id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
     id_producto = str(productoact.get()).split(" ")[0]
@@ -20,6 +35,23 @@ def update(id_presupuesto1, cantidad):
         exit_btn(ventana_actualizar_var)
     except:
         print("Error al crear el registro")
+
+def getSelectionDel(combo, miFrame):
+    id = str(combo.get()).split(" ")[0]
+    print(id)
+    lista = []
+    try:
+        miConexion = sqlite3.connect(empresa)
+        miCursor = miConexion.cursor()
+        miCursor.execute("SELECT PRODUCTO.id_producto, PRODUCTO.nombre, PEDIDO.cantidad FROM PEDIDO, PRODUCTO WHERE PEDIDO.id_producto=PRODUCTO.id_producto AND PEDIDO.id_presupuesto=?", [(id)])
+        lista = miCursor.fetchall()
+    except:
+        print("Error al buscar los datos")
+    print(lista)
+    global productodel
+    productodel = ttk.Combobox(miFrame, values = lista, state = "readonly")
+    productodel.grid(row = 1, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+    productodel.set(lista[0])
 
 def getSelection(combo, miFrame):
     id = str(combo.get()).split(" ")[0]
@@ -65,7 +97,7 @@ def new_pedido(id_presupuesto1, id_producto1, cantidad):
         miConexion.commit()
         miConexion.close()
         print("Introducido")
-        # exit_btn(ventana_añadir_var)
+        exit_btn(ventana_añadir_var)
     except:
         print("Error al crear el registro")
 
@@ -198,3 +230,37 @@ def ventana_actualizar(bbdd):
 
     botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(id_presupuesto1=presupuesto, id_producto1=productoact, cantidad=cantidad.get()))
     botonEnvio.grid(row = row, column = 1)
+
+def ventana_borrar(bbdd):
+    global ventana_borrar_var
+    global empresa
+    empresa = bbdd
+    ventana_borrar_var = Toplevel()
+    miFrame = Frame(ventana_borrar_var, width=700, height=500)
+    miFrame.pack()
+    ventana_borrar_var.title("Borrar Presupuesto")
+
+    row = 0
+
+    presupuesto = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    presupuesto = ttk.Combobox(miFrame, values = select_presupuesto(), state = "readonly")
+    presupuesto.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    productodel = Label(miFrame, text = "Producto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    productodel = ttk.Combobox(miFrame, values = [" "], state = "readonly")
+    productodel.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
+
+    row += 1
+
+    botonCancelar = Button (miFrame, text="Cancelar", command=lambda:exit_btn(ventana_borrar_var))
+    botonCancelar.grid(row = row, column = 0)
+
+    botonBuscar = Button (miFrame, text="Buscar", command=lambda:getSelectionDel(combo=presupuesto, miFrame=miFrame))
+    botonBuscar.grid(row = row, column = 1)
+
+    row += 1
+
+    botonBuscar = Button (miFrame, text="Borrar", command=lambda:delete(id_presupuesto1=presupuesto))
+    botonBuscar.grid(row = row, column = 1)
