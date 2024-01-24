@@ -164,7 +164,7 @@ def ventana_añadir(bbdd):
 
     row += 1
 
-    comboEstado = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboEstado = Label(miFrame, text = "Estado: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
     comboEstado = ttk.Combobox(miFrame, values = ["NUEVO", "CALIFICADO", "PROPUESTA", "GANADO"], state = "readonly")
     comboEstado.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
 
@@ -283,7 +283,7 @@ def ventana_actualizar(bbdd):
 
     row += 1
 
-    comboEstadoact = Label(miFrame, text = "Presupuesto: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
+    comboEstadoact = Label(miFrame, text = "Estado: ").grid(row = row, column = 0, sticky="e", padx=10, pady=10)
     comboEstadoact = ttk.Combobox(miFrame, values = ["NUEVO", "CALIFICADO", "PROPUESTA", "GANADO"], state = "readonly")
     comboEstadoact.grid(row = row, column = 1, columnspan=2, sticky="e", padx=10, pady=10)
 

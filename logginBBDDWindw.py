@@ -11,7 +11,7 @@ def cancelarLogginBBDD():
 
 def enviarLogginBBDD(name, passwd):
     try:
-        miConexion = sqlite3.connect("AWA")
+        miConexion = sqlite3.connect(empresa)
         miCursor = miConexion.cursor()
         miCursor.execute("SELECT * FROM USUARIOS WHERE nombre=?", [(name)])
         lista = miCursor.fetchall()
