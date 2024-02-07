@@ -1,6 +1,7 @@
 from tkinter import *
 import logginManager
 import logginBBDDWindw
+from tkinter import messagebox
 
 # Metodo que comprueba el logeo del ususario
 def loggin(empresa, correo_electronico, password, confimacion_password):
@@ -10,7 +11,10 @@ def loggin(empresa, correo_electronico, password, confimacion_password):
         if(log.isLoggin()):
             logginWindow.destroy()
             logginBBDDWindw.logginBBDD(log.empresa)
-
+        else:
+            messagebox.showerror("Error", "Al iniciar el usuario este mensaje es normal si se esta registrando")
+    else:
+        messagebox.showerror("Error", "Las contraseñas no coinciden")
 # Metodo que arranca la funcion del login inicial
 def functionLogginWindow():
     global logginWindow
