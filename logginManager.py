@@ -1,4 +1,5 @@
 import sqlite3
+from tkinter import messagebox
 
 class log:
     def __init__(self, empresa, correo_electronico, password):
@@ -28,7 +29,7 @@ class log:
                 miConexion.commit()
                 miConexion.close()
             except:
-                print("Error al crear el registro")
+                messagebox.showerror("Error al crear el registro")
             
             try:
                 miConexion = sqlite3.connect(str(self.empresa).upper())
@@ -113,7 +114,8 @@ class log:
             print("Error al buscar los datos")
         print()
         if(lista==[]):
-            print("No se encontro el correo registrando...")
+            messagebox.showinfo("No se encontro el correo registrando", "Creando la direccion de correo")
+            print()
             self.register()
         else:
             if(str(lista[0][2])==self.password and str(lista[0][0])==self.empresa): 

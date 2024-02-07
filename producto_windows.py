@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 def exit_btn(ventana):
@@ -18,20 +19,28 @@ def delete(combo):
         print("Borrado")
         exit_btn(ventana_borrar_var)
     except:
+        messagebox.showerror("Error", "Error al borrar el registro")
         print("Error al borrar el registro")
 
 def new_cliente(nombre, descripcion, stock, precio_unitario):
-    print([(str(nombre), str(descripcion), int(stock), str(precio_unitario))])
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("INSERT INTO PRODUCTO (nombre, descripcion, stock, precio_unitario) VALUES (?, ?, ?, ?)", [(str(nombre), str(descripcion), int(stock), str(precio_unitario))])
-        miConexion.commit()
-        miConexion.close()
-        # print("Introducido")
-        exit_btn(ventana_añadir_var)
-    except:
-        print("Error al crear el registro")
+    if(len(str(nombre))==0 or len(str(descripcion))==0 or len(str(stock))==0 or len(str(precio_unitario))==0):
+            messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+    else:
+        try:
+            print([(str(nombre), str(descripcion), int(stock), int(precio_unitario))])
+        except:
+            messagebox.showerror("Error", "stock y Precio Unitario son números")
+        try:
+            miConexion = sqlite3.connect(empresa)
+            miCursor = miConexion.cursor()
+            miCursor.executemany("INSERT INTO PRODUCTO (nombre, descripcion, stock, precio_unitario) VALUES (?, ?, ?, ?)", [(str(nombre), str(descripcion), int(stock), str(precio_unitario))])
+            miConexion.commit()
+            miConexion.close()
+            # print("Introducido")
+            exit_btn(ventana_añadir_var)
+        except:
+            messagebox.showerror("Error", "Error al crear el registro")
+            print("Error al crear el registro")
 
 def getSelection(combo):
     id = str(combo.get()).split(" ")[0]
@@ -43,6 +52,7 @@ def getSelection(combo):
         miCursor.execute("SELECT nombre, descripcion, stock, precio_unitario FROM PRODUCTO WHERE id_producto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombrever.set(lista[0][0])
@@ -60,6 +70,7 @@ def getSelectionUpdate(combo):
         miCursor.execute("SELECT nombre, descripcion, stock, precio_unitario FROM PRODUCTO WHERE id_producto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombreact.set(lista[0][0])
@@ -69,16 +80,23 @@ def getSelectionUpdate(combo):
 
 def update(combo, nombre, descripcion, stock, precio_unitario):
     id = str(combo.get()).split(" ")[0]
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("UPDATE PRODUCTO SET nombre=?, descripcion=?, stock=?, precio_unitario=? WHERE id_producto=?", [(str(nombre), str(descripcion), str(stock), str(precio_unitario), str(id))])
-        miConexion.commit()
-        miConexion.close()
-        print("Actualizado")
-        exit_btn(ventana_actualizar_var)
-    except:
-        print("Error al modificar el registro")
+    if(len(str(id))==0):
+        messagebox.showerror("Error", "Selecciona algun producto a modificar")
+    else:
+        if(len(str(nombre))==0 or len(str(descripcion))==0 or len(str(stock))==0 or len(str(precio_unitario))==0):
+            messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+        else:
+            try:
+                miConexion = sqlite3.connect(empresa)
+                miCursor = miConexion.cursor()
+                miCursor.executemany("UPDATE PRODUCTO SET nombre=?, descripcion=?, stock=?, precio_unitario=? WHERE id_producto=?", [(str(nombre), str(descripcion), str(stock), str(precio_unitario), str(id))])
+                miConexion.commit()
+                miConexion.close()
+                print("Actualizado")
+                exit_btn(ventana_actualizar_var)
+            except:
+                messagebox.showerror("Error", "Error al modificar el registro")
+                print("Error al modificar el registro")
 
 def select_producto():
     lista = []

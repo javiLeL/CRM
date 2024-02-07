@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 def exit_btn(ventana):
@@ -18,6 +19,7 @@ def delete(combo):
         print("Borrado")
         exit_btn(ventana_borrar_var)
     except:
+        messagebox.showerror("Error", "Error al borrar el registro")
         print("Error al borrar el registro")
 
 def getSelection(combo):
@@ -30,6 +32,7 @@ def getSelection(combo):
         miCursor.execute("SELECT nombre, ingreso, estado, id_cliente, id_presupuesto FROM OPORTUNIDAD WHERE id_oportunidad=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombrever.set(lista[0][0])
@@ -46,6 +49,7 @@ def getPresupuestoOfOportunidad(id):
         miCursor.execute("SELECT PRESUPUESTO.id_presupuesto, PRESUPUESTO.nombre FROM PRESUPUESTO, OPORTUNIDAD WHERE PRESUPUESTO.id_presupuesto = OPORTUNIDAD.id_presupuesto AND OPORTUNIDAD.id_oportunidad = ?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     return lista[0]
 
@@ -57,6 +61,7 @@ def getClienteOfOportunidad(id):
         miCursor.execute("SELECT CLIENTE.id_cliente, CLIENTE.nombre FROM CLIENTE, OPORTUNIDAD WHERE CLIENTE.id_cliente = OPORTUNIDAD.id_cliente AND OPORTUNIDAD.id_oportunidad = ?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     return lista[0]
 
@@ -69,6 +74,7 @@ def getSelectionUpdate(combo):
         miCursor.execute("SELECT nombre, ingreso, estado FROM OPORTUNIDAD WHERE id_oportunidad = ?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     nombreact.set(lista[0][0])
     ingresoact.set(lista[0][1])
@@ -88,6 +94,7 @@ def update(combo, nombre, ingreso, estado, id_cliente, id_presupuesto):
         print("Actualizado")
         exit_btn(ventana_actualizar_var)
     except:
+        messagebox.showerror("Error", "Error al modificar el registro")
         print("Error al modificar el registro")
 
 def select_oportunidad():
@@ -98,6 +105,7 @@ def select_oportunidad():
         miCursor.execute("SELECT id_oportunidad, nombre FROM OPORTUNIDAD")
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     # print(lista)
     return(lista)
@@ -110,6 +118,7 @@ def select_clientes():
         miCursor.execute("SELECT id_cliente, nombre FROM CLIENTE")
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     # print(lista)
     return(lista)
@@ -122,6 +131,7 @@ def select_presupuesto():
         miCursor.execute("SELECT id_presupuesto, nombre FROM PRESUPUESTO")
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     # print(lista)
     return(lista)
@@ -137,6 +147,7 @@ def new_oportunidad(nombre, ingreso, estado, id_cliente, id_presupuesto):
         print("Introducido")
         exit_btn(ventana_añadir_var)
     except:
+        messagebox.showerror("Error", "Error al crear el registro")
         print("Error al crear el registro")
 
 def ventana_añadir(bbdd):

@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 def delete(combo):
@@ -14,7 +15,8 @@ def delete(combo):
         print("Borrado")
         exit_btn(ventana_borrar_var)
     except:
-        print("Error al borrar el registro")
+        messagebox.showerror("Error al borrar el registro")
+        print("Error", "Error al borrar el registro")
 def getSelection(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -25,6 +27,7 @@ def getSelection(combo):
         miCursor.execute("SELECT nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva FROM CLIENTE WHERE id_cliente=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombrever.set(lista[0][0])
@@ -39,17 +42,24 @@ def getSelection(combo):
 
 def update(combo, nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     id = str(combo.get()).split(" ")[0]
-    # print((str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva), int(id)))
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("UPDATE CLIENTE SET nombre=?, calle=?, codigo_postal=?, ciudad=?, pais=?, telefono=?, persona_de_contacto=?, correo_electronico=?, iva=? WHERE id_cliente=?", [(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), str(iva), str(id))])
-        miConexion.commit()
-        miConexion.close()
-        print("Actualizado")
-        exit_btn(ventana_actualizar_var)
-    except:
-        print("Error al modificar el registro")
+    if(len(str(id))==0):
+        messagebox.showerror("Error", "Selecciona algun cliente a modificar")
+    else:
+        if(len(str(nombre))==0 or len(str(calle))==0 or len(str(codigo_postal))==0 or len(str(ciudad))==0 or len(str(pais))==0 or len(str(telefono))==0 or len(str(persona_de_contacto))==0 or len(str(correo_electronico))==0 or len(str(iva))==0):
+            messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+        # print((str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva), int(id)))
+        else:
+            try:
+                miConexion = sqlite3.connect(empresa)
+                miCursor = miConexion.cursor()
+                miCursor.executemany("UPDATE CLIENTE SET nombre=?, calle=?, codigo_postal=?, ciudad=?, pais=?, telefono=?, persona_de_contacto=?, correo_electronico=?, iva=? WHERE id_cliente=?", [(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), str(iva), str(id))])
+                miConexion.commit()
+                miConexion.close()
+                print("Actualizado")
+                exit_btn(ventana_actualizar_var)
+            except:
+                messagebox.showerror("Error al modificar el registro")
+                print("Error", "Error al modificar el registro")
 
 def getSelectionUpdate(combo):
     id = str(combo.get()).split(" ")[0]
@@ -61,7 +71,8 @@ def getSelectionUpdate(combo):
         miCursor.execute("SELECT nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva FROM CLIENTE WHERE id_cliente=?", [(id)])
         lista = miCursor.fetchall()
     except:
-        print("Error al buscar los datos")
+        messagebox.showerror("Error al buscar los datos")
+        print("Error", "Error al buscar los datos")
     print(lista)
     nombreact.set(lista[0][0])
     calleact.set(lista[0][1])
@@ -79,16 +90,19 @@ def exit_btn(ventana):
 
 def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     print([(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico))])
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("INSERT INTO CLIENTE (nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva) VALUES (?,?,?,?,?,?,?,?,?)", [(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva))])
-        miConexion.commit()
-        miConexion.close()
-        print("Introducido")
-        exit_btn(ventana_añadir_var)
-    except:
-        print("Error al crear el registro")
+    if(len(str(nombre))==0 or len(str(calle))==0 or len(str(codigo_postal))==0 or len(str(ciudad))==0 or len(str(pais))==0 or len(str(telefono))==0 or len(str(persona_de_contacto))==0 or len(str(correo_electronico))==0 or len(str(iva))==0):
+            messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+    else:
+        try:
+            miConexion = sqlite3.connect(empresa)
+            miCursor = miConexion.cursor()
+            miCursor.executemany("INSERT INTO CLIENTE (nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva) VALUES (?,?,?,?,?,?,?,?,?)", [(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico), int(iva))])
+            miConexion.commit()
+            miConexion.close()
+            print("Introducido")
+            exit_btn(ventana_añadir_var)
+        except:
+            print("Error", "Error al crear el registro")
 
 def select_clientes():
     lista = []
@@ -98,7 +112,7 @@ def select_clientes():
         miCursor.execute("SELECT id_cliente, nombre FROM CLIENTE")
         lista = miCursor.fetchall()
     except:
-        print("Error al buscar los datos")
+        print("Error", "Error al buscar los datos")
     # print(lista)
     return(lista)
 

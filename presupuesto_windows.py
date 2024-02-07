@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 def exit_btn(ventana):
@@ -18,6 +19,7 @@ def delete(combo):
         print("Borrado")
         exit_btn(ventana_borrar_var)
     except:
+        messagebox.showerror("Error", "Error al borrar el registro")
         print("Error al borrar el registro")
 
 def getSelection(combo):
@@ -30,6 +32,7 @@ def getSelection(combo):
         miCursor.execute("SELECT nombre, fecha_creacion, fecha_expiracion FROM PRESUPUESTO WHERE id_presupuesto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombrever.set(lista[0][0])
@@ -38,16 +41,23 @@ def getSelection(combo):
 
 def update(combo, nombre, fecha_creacion, fecha_expiracion):
     id = str(combo.get()).split(" ")[0]
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("UPDATE PRESUPUESTO SET nombre=?, fecha_creacion=?, fecha_expiracion=? WHERE id_presupuesto=?", [(str(nombre), str(fecha_creacion), str(fecha_expiracion), str(id))])
-        miConexion.commit()
-        miConexion.close()
-        print("Actualizado")
-        exit_btn(ventana_actualizar_var)
-    except:
-        print("Error al modificar el registro")
+    if(len(str(id))==0):
+        messagebox.showerror("Error", "Selecciona alguna presupuesto a modificar")
+    else:
+        if(len(str(nombre))==0 or len(str(fecha_creacion))==0 or len(str(fecha_expiracion))==0):
+            messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+        else:
+            try:
+                miConexion = sqlite3.connect(empresa)
+                miCursor = miConexion.cursor()
+                miCursor.executemany("UPDATE PRESUPUESTO SET nombre=?, fecha_creacion=?, fecha_expiracion=? WHERE id_presupuesto=?", [(str(nombre), str(fecha_creacion), str(fecha_expiracion), str(id))])
+                miConexion.commit()
+                miConexion.close()
+                print("Actualizado")
+                exit_btn(ventana_actualizar_var)
+            except:
+                messagebox.showerror("Error", "Error al modificar el registro")
+                print("Error al modificar el registro")
 
 def getSelectionUpdate(combo):
     id = str(combo.get()).split(" ")[0]
@@ -59,6 +69,7 @@ def getSelectionUpdate(combo):
         miCursor.execute("SELECT nombre, fecha_creacion, fecha_expiracion FROM PRESUPUESTO WHERE id_presupuesto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     nombreact.set(lista[0][0])
@@ -73,22 +84,27 @@ def select_presupuesto():
         miCursor.execute("SELECT id_presupuesto, nombre FROM PRESUPUESTO")
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     return(lista)
 
 def new_presupuesto(nombre, fecha_creacion, fecha_expiracion):
-    print([(str(nombre), str(fecha_creacion), str(fecha_expiracion))])
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("INSERT INTO PRESUPUESTO (nombre, fecha_creacion, fecha_expiracion) VALUES (?, ?, ?)", [(str(nombre), str(fecha_creacion), str(fecha_expiracion))])
-        miConexion.commit()
-        miConexion.close()
-        # print("Introducido")
-        exit_btn(ventana_añadir_var)
-    except:
-        print("Error al crear el registro")
+    if(len(str(nombre))==0 or len(str(fecha_creacion))==0 or len(str(fecha_expiracion))==0):
+        messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+    else:
+        print([(str(nombre), str(fecha_creacion), str(fecha_expiracion))])
+        try:
+            miConexion = sqlite3.connect(empresa)
+            miCursor = miConexion.cursor()
+            miCursor.executemany("INSERT INTO PRESUPUESTO (nombre, fecha_creacion, fecha_expiracion) VALUES (?, ?, ?)", [(str(nombre), str(fecha_creacion), str(fecha_expiracion))])
+            miConexion.commit()
+            miConexion.close()
+            # print("Introducido")
+            exit_btn(ventana_añadir_var)
+        except:
+            messagebox.showerror("Error", "Error al crear el registro")
+            print("Error al crear el registro")
 
 def ventana_añadir(bbdd):
     global ventana_añadir_var

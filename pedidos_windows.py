@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 import sqlite3
 
 def exit_btn(ventana):
@@ -19,22 +20,27 @@ def delete(id_presupuesto1):
         print("Borrado")
         exit_btn(ventana_borrar_var)
     except:
+        messagebox.showerror("Error", "Error al borrar el registro")
         print("Error al borrar el registro")
 
 def update(id_presupuesto1, cantidad):
     id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
     id_producto = str(productoact.get()).split(" ")[0]
-    print([(str(id_presupuesto), str(id_producto), int(cantidad))])
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miCursor = miConexion.cursor()
-        miCursor.executemany("UPDATE PEDIDO SET cantidad=? WHERE id_presupuesto=? AND id_producto=?", [(str(cantidad), str(id_presupuesto), str(id_producto))])
-        miConexion.commit()
-        miConexion.close()
-        print("Actualizado")
-        exit_btn(ventana_actualizar_var)
-    except:
-        print("Error al crear el registro")
+    if(len(str(id_presupuesto))==0 or len(str(id_producto))==0):
+        messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+    else:
+        print([(str(id_presupuesto), str(id_producto), int(cantidad))])
+        try:
+            miConexion = sqlite3.connect(empresa)
+            miCursor = miConexion.cursor()
+            miCursor.executemany("UPDATE PEDIDO SET cantidad=? WHERE id_presupuesto=? AND id_producto=?", [(str(cantidad), str(id_presupuesto), str(id_producto))])
+            miConexion.commit()
+            miConexion.close()
+            print("Actualizado")
+            exit_btn(ventana_actualizar_var)
+        except:
+            messagebox.showerror("Error", "Error al crear el registro")
+            print("Error al crear el registro")
 
 def getSelectionDel(combo, miFrame):
     id = str(combo.get()).split(" ")[0]
@@ -46,6 +52,7 @@ def getSelectionDel(combo, miFrame):
         miCursor.execute("SELECT PRODUCTO.id_producto, PRODUCTO.nombre, PEDIDO.cantidad FROM PEDIDO, PRODUCTO WHERE PEDIDO.id_producto=PRODUCTO.id_producto AND PEDIDO.id_presupuesto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     global productodel
@@ -63,6 +70,7 @@ def getSelection(combo, miFrame):
         miCursor.execute("SELECT PRODUCTO.id_producto, PRODUCTO.nombre, PEDIDO.cantidad FROM PEDIDO, PRODUCTO WHERE PEDIDO.id_producto=PRODUCTO.id_producto AND PEDIDO.id_presupuesto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     productover = ttk.Combobox(miFrame, values = lista, state = "readonly")
@@ -80,6 +88,7 @@ def getSelectionUpdate(combo, miFrame):
         miCursor.execute("SELECT PRODUCTO.id_producto, PRODUCTO.nombre, PEDIDO.cantidad FROM PEDIDO, PRODUCTO WHERE PEDIDO.id_producto=PRODUCTO.id_producto AND PEDIDO.id_presupuesto=?", [(id)])
         lista = miCursor.fetchall()
     except:
+        messagebox.showerror("Error", "Error al buscar los datos")
         print("Error al buscar los datos")
     print(lista)
     productoact = ttk.Combobox(miFrame, values = lista, state = "readonly")
@@ -89,17 +98,21 @@ def getSelectionUpdate(combo, miFrame):
 def new_pedido(id_presupuesto1, id_producto1, cantidad):
     id_presupuesto = str(id_presupuesto1.get()).split(" ")[0]
     id_producto = str(id_producto1.get()).split(" ")[0]
-    # print([(str(id_presupuesto), str(id_producto), int(cantidad))])
-    try:
-        miConexion = sqlite3.connect(empresa)
-        miConexion.execute("PRAGMA foreign_keys=ON")
-        miConexion.executemany("INSERT INTO PEDIDO (id_presupuesto, id_producto, cantidad) VALUES (?, ?, ?)", [(str(id_presupuesto), str(id_producto), int(cantidad))])
-        miConexion.commit()
-        miConexion.close()
-        print("Introducido")
-        exit_btn(ventana_añadir_var)
-    except:
-        print("Error al crear el registro")
+    if(len(str(id_presupuesto))==0 or len(str(id_producto))==0):
+        messagebox.showerror("Error", "No se olvide de rellenar todos los datos")
+    else:
+        # print([(str(id_presupuesto), str(id_producto), int(cantidad))])
+        try:
+            miConexion = sqlite3.connect(empresa)
+            miConexion.execute("PRAGMA foreign_keys=ON")
+            miConexion.executemany("INSERT INTO PEDIDO (id_presupuesto, id_producto, cantidad) VALUES (?, ?, ?)", [(str(id_presupuesto), str(id_producto), int(cantidad))])
+            miConexion.commit()
+            miConexion.close()
+            print("Introducido")
+            exit_btn(ventana_añadir_var)
+        except:
+            messagebox.showerror("Error", "Error al crear el registro")
+            print("Error al crear el registro")
 
 def select_presupuesto():
     lista = []
