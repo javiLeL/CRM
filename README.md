@@ -14,3 +14,4 @@ Aparte de una representacion basica de las Oportunidades o *PIPELINE* clasica de
 
 ## Base de datos
 La base de datos usada es:
+![](https://github.com/javiLeL/CRM/blob/main/diagrama_BBDD.png)
