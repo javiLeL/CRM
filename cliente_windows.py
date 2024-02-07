@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
 
+# Metodo que se encarga de borrar clientes a partir de una id
 def delete(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -17,6 +18,7 @@ def delete(combo):
     except:
         messagebox.showerror("Error al borrar el registro")
         print("Error", "Error al borrar el registro")
+# Metodo capaz de extraer los datos de un usuario y ponerlos en los campos correspondientes
 def getSelection(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -40,6 +42,7 @@ def getSelection(combo):
     correo_electronicover.set(lista[0][7])
     ivaver.set(lista[0][8])
 
+# Metodo que se encarga de actualizar los usuarios pasandoles la informacion correspondiente
 def update(combo, nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     id = str(combo.get()).split(" ")[0]
     if(len(str(id))==0):
@@ -60,7 +63,7 @@ def update(combo, nombre, calle, codigo_postal, ciudad, pais, telefono, persona_
             except:
                 messagebox.showerror("Error al modificar el registro")
                 print("Error", "Error al modificar el registro")
-
+# metodo capaz de extraer los datos y ponerlos en los campos correspondientes de la secion update
 def getSelectionUpdate(combo):
     id = str(combo.get()).split(" ")[0]
     print(id)
@@ -84,10 +87,12 @@ def getSelectionUpdate(combo):
     correo_electronicoact.set(lista[0][7])
     ivaact.set(lista[0][8])
 
+# Cierra la ventana que se le pasa
 def exit_btn(ventana):
     ventana.destroy()
     ventana.update()
 
+# Metodo capaz de crear un nuevo cliente 
 def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de_contacto, correo_electronico, iva):
     print([(str(nombre), str(calle), str(codigo_postal), str(ciudad), str(pais), str(telefono), str(persona_de_contacto), str(correo_electronico))])
     if(len(str(nombre))==0 or len(str(calle))==0 or len(str(codigo_postal))==0 or len(str(ciudad))==0 or len(str(pais))==0 or len(str(telefono))==0 or len(str(persona_de_contacto))==0 or len(str(correo_electronico))==0 or len(str(iva))==0):
@@ -104,6 +109,7 @@ def new_cliente(nombre, calle, codigo_postal, ciudad, pais, telefono, persona_de
         except:
             print("Error", "Error al crear el registro")
 
+# Metodo capaz de extraer y devolver los clientes que se encuentren el la base de datos
 def select_clientes():
     lista = []
     try:
@@ -116,6 +122,7 @@ def select_clientes():
     # print(lista)
     return(lista)
 
+# Metodo que lanza la ventana para insertar los diferentes datos de los clientes
 def ventana_añadir(bbdd):
     global ventana_añadir_var
     global empresa
@@ -196,7 +203,7 @@ def ventana_añadir(bbdd):
 
     botonEnvio = Button (miFrame, text="Enviar", command=lambda:new_cliente(nombre=nombre.get(), calle=calle.get(), codigo_postal=codigo_postal.get(), ciudad=ciudad.get(), pais=pais.get(), telefono=telefono.get(), persona_de_contacto=persona_contacto.get(), correo_electronico=correo_electronico.get(), iva=iva.get()))
     botonEnvio.grid(row = row, column = 1)
-
+# Metodo que lanza la ventana que muestra los datos de un cliente 
 def ventana_ver(bbdd):
     global ventana_ver_var
     global empresa
@@ -285,6 +292,7 @@ def ventana_ver(bbdd):
     botonEnvio = Button (miFrame, text="Buscar", command=lambda:getSelection(combo=combo))
     botonEnvio.grid(row = row, column = 1)
 
+# Metodo que lanza la ventana que actualiza un cliente
 def ventana_actualizar(bbdd):
     global ventana_actualizar_var
     global empresa
@@ -378,6 +386,7 @@ def ventana_actualizar(bbdd):
     botonEnvio = Button (miFrame, text="Actualizar", command=lambda:update(combo=combo, nombre=nombreact.get(), calle=calleact.get(), codigo_postal=codigo_postalact.get(), ciudad=ciudadact.get(), pais=paisact.get(), telefono=telefonoact.get(), persona_de_contacto=persona_contactoact.get(), correo_electronico=correo_electronicoact.get(), iva=ivaact.get()))
     botonEnvio.grid(row = row, column = 1)
 
+# Metodo que lanza la ventana borrar
 def ventana_borrar(bbdd):
     global ventana_borrar_var
     global empresa

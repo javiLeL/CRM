@@ -1,3 +1,5 @@
+# Esta pantalla es muy parecida a la de cliente porfavor revisar 
+# los comentarios en el arhivo "cliente_windows.py"
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox

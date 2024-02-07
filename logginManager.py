@@ -1,7 +1,9 @@
 import sqlite3
 from tkinter import messagebox
-
+# Esta clase se encarga de gestionar los usuarios de la base de datos
 class log:
+    # Al crear un objeto de este tipo se le pasan ciertos datos aparte de 
+    # esto se crean la base de datos.
     def __init__(self, empresa, correo_electronico, password):
         self.empresa=str(empresa)
         self.correo_electronico=str(correo_electronico)
@@ -21,6 +23,8 @@ class log:
             pass
             # print("Ya esta creada la base de datos LOGGIN")
         # print("Creada conexion")
+    # Este metodo se encarga de registrar el correo electronico 
+    # Y de crear la base de datos cuando un usuario nuevo entra en la empresa
     def register(self):
             try:
                 miConexion = sqlite3.connect("LOGGIN")
@@ -100,9 +104,8 @@ class log:
                 miConexion.close()
             except:
                 print("Error al crear el registro")
-    def loggin ():
-        pass
-
+    # Este metodo se encarga de saber si el usuario esta logeado o no 
+    # si este no esta logeado entonces lo registra devuelve un booleno
     def isLoggin(self):
         lista=[]
         try:

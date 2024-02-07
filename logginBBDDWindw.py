@@ -4,11 +4,12 @@ import CRM_Window
 import logginWindow
 
 empresa = None
-
+# Este metodo cierra el loggin del crm para ir al crm global
 def cancelarLogginBBDD():
     logginToBBDD.destroy()
     logginWindow.functionLogginWindow()
-
+# Este metodo revisa si el usuario que se le a pasado posee 
+# el mismo nombre y contraseña que posee la base de datos
 def enviarLogginBBDD(name, passwd):
     try:
         miConexion = sqlite3.connect(empresa)
@@ -22,7 +23,7 @@ def enviarLogginBBDD(name, passwd):
     if(lista[0][1]==passwd):
         logginToBBDD.destroy()
         CRM_Window.CRM_Window(empresa)
-
+# Este metodo lanza la ventana de login del crm 
 def logginBBDD(bbdd):
     global logginToBBDD
     global empresa

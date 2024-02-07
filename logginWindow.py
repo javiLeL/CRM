@@ -2,6 +2,7 @@ from tkinter import *
 import logginManager
 import logginBBDDWindw
 
+# Metodo que comprueba el logeo del ususario
 def loggin(empresa, correo_electronico, password, confimacion_password):
     if(password == confimacion_password):
         log = logginManager.log(empresa, correo_electronico, password)
@@ -10,6 +11,7 @@ def loggin(empresa, correo_electronico, password, confimacion_password):
             logginWindow.destroy()
             logginBBDDWindw.logginBBDD(log.empresa)
 
+# Metodo que arranca la funcion del login inicial
 def functionLogginWindow():
     global logginWindow
     logginWindow = Tk()

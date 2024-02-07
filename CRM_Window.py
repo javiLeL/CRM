@@ -6,7 +6,7 @@ import producto_windows
 import oportunidad_windows
 import presupuesto_windows
 import pedidos_windows
-
+# Este metodod actualiza los campos de la PIPELINES de CRM
 def updateCampos(miFrame):
     listaNuevo = []
     listaCalificado = []
@@ -41,7 +41,7 @@ def updateCampos(miFrame):
     comboGanado = Label(miFrame, text = "Ganado").grid(row = 0, column = 10, sticky="e", padx=10, pady=10)
     comboGanado = ttk.Combobox(miFrame, values = listaGanado, state = "readonly")
     comboGanado.grid(row = 1, column = 10, columnspan=3, sticky="e", padx=10, pady=10)
-
+# Este metodo lanza la ventana que sustenta todo el CRM
 def CRM_Window(bbdd):
     global CRM_Window_VAR, empresa
     empresa = bbdd
